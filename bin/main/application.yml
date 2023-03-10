@@ -1,0 +1,63 @@
+server:
+    port: 8080
+    
+spring:
+    profiles:
+        active: qa 
+---
+spring:
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        password: root
+        url: jdbc:postgresql://localhost:5432/mydb
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+
+---
+spring:
+    config:
+        activate:
+            on-profile: qa
+    datasource:
+        password: root
+        url: jdbc:postgresql://localhost:5432/mydb-qa
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+        
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+                exclude: "env,beans"
+
+---
+spring:
+    config:
+        activate:
+            on-profile: prod
+    datasource:
+        password: root
+        url: jdbc:postgresql://localhost:5432/mydb-prod
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
